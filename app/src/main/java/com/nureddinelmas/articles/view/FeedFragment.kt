@@ -39,6 +39,7 @@ class FeedFragment : Fragment(), MenuProvider {
 	): View {
 		_binding = FragmentFeedBinding.inflate(inflater, container, false)
 		activity?.addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
+		activity?.title = " All Articles"
 		return binding.root
 	}
 	

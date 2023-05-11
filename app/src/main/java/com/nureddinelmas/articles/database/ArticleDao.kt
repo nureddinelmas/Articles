@@ -1,4 +1,4 @@
-package com.nureddinelmas.database
+package com.nureddinelmas.articles.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
@@ -11,8 +11,8 @@ interface ArticleDao {
 	@Query("SELECT * FROM articles")
 	fun getAllData() : LiveData<List<Article>>
 	
-/*	@Query("SELECT * FROM articles WHERE id=:articleId")
-	suspend fun getSelectedArticle(articleId: Int) : LiveData<List<Article>>*/
+	@Query("SELECT * FROM articles WHERE title= :articleTitle")
+	suspend fun getSelectedArticle(articleTitle: String) : Article
 	
 	@Insert(onConflict = OnConflictStrategy.IGNORE)
 	suspend fun insertData(article: Article)

@@ -1,4 +1,4 @@
-package com.nureddinelmas.database
+package com.nureddinelmas.articles.database
 
 import android.content.Context
 import androidx.room.Database

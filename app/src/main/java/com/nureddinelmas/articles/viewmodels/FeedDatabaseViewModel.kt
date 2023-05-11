@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.nureddinelmas.articles.model.Article
 import com.nureddinelmas.articles.repository.ArticleRepository
-import com.nureddinelmas.database.ArticleDatabase
+import com.nureddinelmas.articles.database.ArticleDatabase
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,6 +23,12 @@ class FeedDatabaseViewModel(application: Application) : AndroidViewModel(applica
 	fun deleteOneData(article: Article){
 		viewModelScope.launch(Dispatchers.IO) {
 			repository.deleteSelectedData(article)
+		}
+	}
+	
+	fun compareTwoArticles(articleTitle: String){
+		viewModelScope.launch{
+		
 		}
 	}
 	

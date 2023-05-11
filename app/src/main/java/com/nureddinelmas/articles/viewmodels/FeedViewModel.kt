@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.nureddinelmas.articles.model.Article
 import com.nureddinelmas.articles.apiService.ArticleAPIService
-import com.nureddinelmas.database.ArticleDatabase
+import com.nureddinelmas.articles.database.ArticleDatabase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
@@ -25,6 +25,9 @@ class FeedViewModel (application: Application) : BaseViewModel(application){
 
 
 	}
+	
+	
+	
 	private fun getDataFromAPI(){
 		articleLoading.value = true
 		disposable.add(

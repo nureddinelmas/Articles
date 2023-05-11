@@ -8,6 +8,7 @@ import androidx.core.view.MenuProvider
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
@@ -18,11 +19,13 @@ import com.nureddinelmas.articles.databinding.FragmentFeedBinding
 import com.nureddinelmas.articles.model.Article
 import com.nureddinelmas.articles.util.SwipeToDelete
 import com.nureddinelmas.articles.viewmodels.ArticleViewModel
+import com.nureddinelmas.articles.viewmodels.FeedDatabaseViewModel
 import kotlinx.coroutines.NonDisposableHandle.parent
 
 class ArticleFragment : Fragment() {
 	private lateinit var article: Article
 	lateinit var articleViewModel: ArticleViewModel
+	 lateinit var feedDatabaseViewModel : FeedDatabaseViewModel
 	private var isFromDatabase: Boolean = false
 	private lateinit var dataBinding: FragmentArticleBinding
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,7 +59,10 @@ class ArticleFragment : Fragment() {
 			dataBinding.saveArticleButton.visibility = View.GONE
 		}
 		articleViewModel = ViewModelProvider(requireActivity())[ArticleViewModel::class.java]
+		feedDatabaseViewModel = ViewModelProvider(requireActivity())[FeedDatabaseViewModel::class.java]
 		dataBinding.selectedArticle = article
+		
+		
 		
 		
 		
@@ -68,6 +74,14 @@ class ArticleFragment : Fragment() {
 			)
 		}
 		
+		feedDatabaseViewModel.getAllData.observe(viewLifecycleOwner, Observer {data ->
+		for (item in data){
+			if (item.title == article.title){
+				dataBinding.saveArticleButton.visibility = View.GONE
+			}
+		}
+		
+		})
 	}
 	
 
@@ -78,6 +92,8 @@ class ArticleFragment : Fragment() {
 		articleViewModel.insertData(article)
 		
 	}
+	
+
 	
 	
 }

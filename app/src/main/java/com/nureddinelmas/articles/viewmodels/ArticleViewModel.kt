@@ -6,8 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.nureddinelmas.articles.model.Article
 import com.nureddinelmas.articles.repository.ArticleRepository
-import com.nureddinelmas.database.ArticleDao
-import com.nureddinelmas.database.ArticleDatabase
+import com.nureddinelmas.articles.database.ArticleDao
+import com.nureddinelmas.articles.database.ArticleDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -27,5 +27,9 @@ class ArticleViewModel (application: Application) : AndroidViewModel(application
 			repository.deleteAllData()
 		}
 	}
+	
+
+	
+
 
 }

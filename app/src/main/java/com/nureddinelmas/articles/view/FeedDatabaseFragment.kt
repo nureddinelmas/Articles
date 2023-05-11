@@ -41,6 +41,7 @@ class FeedDatabaseFragment : Fragment() , MenuProvider{
 	): View {
 		_binding = FragmentFeedDatabaseBinding.inflate(inflater, container, false)
 		activity?.addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
+		activity?.title = "My Recorded Articles"
 		return binding.root
 	}
 	
