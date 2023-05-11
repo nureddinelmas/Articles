@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/feedFragment">
+
+    <fragment
+        android:id="@+id/articleFragment"
+        android:name="com.nureddinelmas.articles.view.ArticleFragment"
+        android:label="fragment_article"
+        tools:layout="@layout/fragment_article" >
+        <action
+            android:id="@+id/action_articleFragment_to_feedFragment"
+            app:destination="@id/feedFragment" />
+        <argument
+            android:name="article"
+            app:argType="com.nureddinelmas.articles.model.Article" />
+        <action
+            android:id="@+id/action_articleFragment_to_feedDatabaseFragment"
+            app:destination="@id/feedDatabaseFragment" />
+        <argument
+            android:name="isFromDatabase"
+            app:argType="boolean" />
+    </fragment>
+    <fragment
+        android:id="@+id/feedFragment"
+        android:name="com.nureddinelmas.articles.view.FeedFragment"
+        android:label="fragment_feed"
+        tools:layout="@layout/fragment_feed" >
+        <action
+            android:id="@+id/action_feedFragment_to_articleFragment"
+            app:destination="@id/articleFragment" />
+        <action
+            android:id="@+id/action_feedFragment_to_feedDatabaseFragment"
+            app:destination="@id/feedDatabaseFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/feedDatabaseFragment"
+        android:name="com.nureddinelmas.articles.view.FeedDatabaseFragment"
+        android:label="fragment_feed_database"
+        tools:layout="@layout/fragment_feed_database" >
+        <action
+            android:id="@+id/action_feedDatabaseFragment_to_feedFragment"
+            app:destination="@id/feedFragment" />
+        <action
+            android:id="@+id/action_feedDatabaseFragment_to_articleFragment"
+            app:destination="@id/articleFragment" />
+    </fragment>
+</navigation>

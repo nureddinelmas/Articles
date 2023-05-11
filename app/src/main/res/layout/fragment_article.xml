@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="selectedArticle"
+            type="com.nureddinelmas.articles.model.Article" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.ArticleFragment">
+
+        <ImageView
+            android:id="@+id/countryImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:downloadUrl="@{selectedArticle.urlToImage}"
+            android:paddingTop="10dp"
+            android:scaleType="fitCenter"
+            android:minHeight="200dp">
+
+        </ImageView>
+
+        <TextView
+            android:id="@+id/articleTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/countryImage"
+            android:text="@{selectedArticle.title}"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="7dp">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/articleDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/articleTitle"
+            android:text="@{selectedArticle.description}"
+            android:textSize="16sp"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="7dp">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/articleContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/articleDescription"
+            android:text="@{selectedArticle.content}"
+            android:textSize="16sp"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="7dp">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/countryCurrency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/articleContent"
+            android:text="@{selectedArticle.content}"
+            android:textSize="16sp"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="7dp">
+
+        </TextView>
+
+        <Button
+            android:id="@+id/saveArticleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/countryCurrency"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="7dp"
+            android:layout_marginBottom="7dp"
+            android:text="Save This Article"
+            android:textSize="16sp">
+
+        </Button>
+
+
+    </RelativeLayout>
+</layout>
