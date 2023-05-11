@@ -50,13 +50,6 @@ class FeedViewModel (application: Application) : BaseViewModel(application){
 				})
 		)
 	}
-	
-
-	private fun showArticles(articleList: List<Article>){
-		articles.value = articleList
-		articleError.value= false
-		articleLoading.value = false
-	}
 	override fun onCleared() {
 		super.onCleared()
 		disposable.clear()

@@ -4,15 +4,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.nureddinelmas.articles.R
 import com.nureddinelmas.articles.databinding.ItemArticleBinding
 import com.nureddinelmas.articles.model.Article
 import com.nureddinelmas.articles.view.FeedDatabaseFragmentDirections
 
-class ArticleDatabaseAdapter (private val articleList: ArrayList<Article>) :
+class ArticleDatabaseAdapter () :
 	RecyclerView.Adapter<ArticleDatabaseAdapter.ArticleViewHolder>() {
-	
+	var articleList = emptyList<Article>()
 	
 	class ArticleViewHolder(var view: ItemArticleBinding) : RecyclerView.ViewHolder(view.root) {
 	
@@ -46,9 +47,10 @@ class ArticleDatabaseAdapter (private val articleList: ArrayList<Article>) :
 	
 	
 	fun updateCountryList(newArticleList: List<Article>) {
-		articleList.clear()
-		articleList.addAll(newArticleList)
-		notifyDataSetChanged()
+		val toDoDiffUtil = ArticleDiffUtil(articleList, newArticleList)
+		val toDoDiffResult = DiffUtil.calculateDiff(toDoDiffUtil)
+		this.articleList = newArticleList
+		toDoDiffResult.dispatchUpdatesTo(this)
 	}
 	
 	

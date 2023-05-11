@@ -12,13 +12,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ArticleViewModel (application: Application) : AndroidViewModel(application){
-
-	// private val articleDao = ArticleDatabase.getDatabase(application).articleDao()
-
 	private val articleDao = ArticleDatabase(getApplication()).articleDao()
 	private val repository : ArticleRepository = ArticleRepository(articleDao)
-	
-//	val getAllData : LiveData<List<Article>> = repository.getAllData
+
 	
 	fun insertData(article: Article){
 		viewModelScope.launch (Dispatchers.IO){

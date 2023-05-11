@@ -9,18 +9,26 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.nureddinelmas.articles.R
 import com.nureddinelmas.articles.adapter.ArticleDatabaseAdapter
 import com.nureddinelmas.articles.databinding.FragmentFeedDatabaseBinding
+import com.nureddinelmas.articles.model.Article
+import com.nureddinelmas.articles.util.SwipeToDelete
+import com.nureddinelmas.articles.viewmodels.ArticleViewModel
 import com.nureddinelmas.articles.viewmodels.FeedDatabaseViewModel
+import com.nureddinelmas.articles.viewmodels.FeedViewModel
 
 
 class FeedDatabaseFragment : Fragment() , MenuProvider{
 	private  var _binding : FragmentFeedDatabaseBinding? =null
 	private val binding get() = _binding!!
 	private lateinit var viewModel : FeedDatabaseViewModel
-	private val articleAdapter = ArticleDatabaseAdapter(arrayListOf())
+	private lateinit var articleViewModel : ArticleViewModel
+	private val articleAdapter = ArticleDatabaseAdapter()
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -40,18 +48,51 @@ class FeedDatabaseFragment : Fragment() , MenuProvider{
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		viewModel = ViewModelProvider(requireActivity())[FeedDatabaseViewModel::class.java]
+		articleViewModel = ViewModelProvider(requireActivity())[ArticleViewModel::class.java]
+		
 		binding.articlesListDatabase.layoutManager = LinearLayoutManager(context)
 		binding.articlesListDatabase.adapter = articleAdapter
 		
 		viewModel.getAllData.observe(viewLifecycleOwner, Observer {data ->
 			articleAdapter.updateCountryList(data)
-			Log.d("!!!", "data.toString()")
-			Log.d("!!!", data.toString())
-			Log.d("!!!", "olmadi")
+			
 			binding.articleError.visibility = View.GONE
 			binding.articlesListDatabase.visibility = View.VISIBLE
 			binding.articleLoading.visibility = View.GONE
 		})
+		
+		
+		swipeToDelete(binding.articlesListDatabase)
+	}
+	
+	private fun swipeToDelete(recyclerView: RecyclerView) {
+		val swipeToDeleteCallback = object : SwipeToDelete(){
+			override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+				val itemToDelete = articleAdapter.articleList[viewHolder.adapterPosition]
+				viewModel.deleteOneData(itemToDelete)
+				restoreDeletedData(viewHolder.itemView, itemToDelete, viewHolder.adapterPosition)
+			}
+			
+		}
+		
+		val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
+		itemTouchHelper.attachToRecyclerView(recyclerView)
+	}
+	
+	private fun restoreDeletedData(view: View, deletedItem: Article, position: Int) {
+		var deleted: String = R.string.deleted.toString()
+		
+		var ekmessage = "  ->  ' ${deletedItem.title} '"
+		
+		val snackbar = Snackbar.make(view, (R.string.deleted), Snackbar.LENGTH_LONG)
+		
+		snackbar.setAction(R.string.undo) {
+			articleViewModel.insertData(deletedItem)
+			articleAdapter.notifyDataSetChanged()
+			articleAdapter.notifyItemChanged(position)
+			
+		}
+		snackbar.show()
 	}
 	
 	override fun onDestroy() {
@@ -71,5 +112,6 @@ class FeedDatabaseFragment : Fragment() , MenuProvider{
 		return true
 	}
 	
+
 	
 }

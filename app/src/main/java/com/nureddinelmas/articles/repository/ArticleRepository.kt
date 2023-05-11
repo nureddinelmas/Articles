@@ -15,4 +15,14 @@ class ArticleRepository (private val articleDao: ArticleDao){
 	suspend fun deleteAllData(){
 		articleDao.deleteAllData()
 	}
+	
+	suspend fun deleteSelectedData(article: Article){
+		articleDao.deleteSelectedArticle(article)
+	}
+	/*
+	suspend fun getSelectedData(articleId: Int){
+		articleDao.getSelectedArticle(articleId)
+	}
+	
+	*/
 }

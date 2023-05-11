@@ -10,20 +10,20 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.RecyclerView
 import com.nureddinelmas.articles.R
 import com.nureddinelmas.articles.adapter.ArticleClickListener
 import com.nureddinelmas.articles.databinding.FragmentArticleBinding
 import com.nureddinelmas.articles.databinding.FragmentFeedBinding
 import com.nureddinelmas.articles.model.Article
+import com.nureddinelmas.articles.util.SwipeToDelete
 import com.nureddinelmas.articles.viewmodels.ArticleViewModel
 import kotlinx.coroutines.NonDisposableHandle.parent
 
 class ArticleFragment : Fragment() {
 	private lateinit var article: Article
 	lateinit var articleViewModel: ArticleViewModel
-	
-	/*private var _binding: FragmentArticleBinding? = null
-	private val binding get() = _binding!!*/
+	private var isFromDatabase: Boolean = false
 	private lateinit var dataBinding: FragmentArticleBinding
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -39,10 +39,6 @@ class ArticleFragment : Fragment() {
 			DataBindingUtil.inflate(layoutInflater, R.layout.fragment_article, container, false)
 		
 		return dataBinding.root
-		
-		
-		/*_binding = FragmentArticleBinding.inflate(inflater, container, false)
-		return binding.root*/
 	}
 	
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -50,9 +46,14 @@ class ArticleFragment : Fragment() {
 		
 		
 		arguments?.let { art ->
-			
+			isFromDatabase = ArticleFragmentArgs.fromBundle(art).isFromDatabase
 			article = ArticleFragmentArgs.fromBundle(art).article
 			
+			
+		}
+		
+		if (isFromDatabase) {
+			dataBinding.saveArticleButton.visibility = View.GONE
 		}
 		articleViewModel = ViewModelProvider(requireActivity())[ArticleViewModel::class.java]
 		dataBinding.selectedArticle = article
@@ -66,7 +67,10 @@ class ArticleFragment : Fragment() {
 				action
 			)
 		}
+		
 	}
+	
+
 	
 	
 	private fun insertDataDb(article: Article) {
